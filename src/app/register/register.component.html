@@ -1,0 +1,48 @@
+<div class="row mt-5">
+    <div class="alert alert-success" role="alert" *ngIf="isSuccessful && showResultMessage">
+        Sign up successfully, click <a routerLink="/login" class="alert-link">here</a> to login.
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf="!isSuccessful && showResultMessage">
+        Sign up failed, please try again.
+    </div>
+    <form [formGroup]="registerFormGroup" (ngSubmit)="onSubmit()" class="row g-3 needs-validation" novalidate>
+        <div class="form-group">
+            <label for="name">Full name</label>
+            <input required formControlName="name" type="text" class="form-control" id="name"
+                placeholder="Enter full name">
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="form-text text-danger">
+                <div *ngIf="name.errors?.['required']">This field is required</div>
+                <div *ngIf="name.errors?.['maxlength']">This field has max length must be less than 40 characters</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input formControlName="email" type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                placeholder="Enter email">
+            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="form-text text-danger">
+                <div *ngIf="email.errors?.['required']">This field is required</div>
+                <div *ngIf="email.errors?.['email']">This field must be a email address</div>
+            </div>
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input formControlName="password" type="password" class="form-control" id="password" placeholder="Password">
+            <div *ngIf="password.invalid && (password.dirty || password.touched)" class="form-text text-danger">
+                <div *ngIf="password.errors?.['required']">This field is required</div>
+                <div *ngIf="password.errors?.['maxlength']">This field must be less than 20 characters</div>
+                <div *ngIf="password.errors?.['minlength']">This field must be greater than 6 characters</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">Confirm password</label>
+            <input formControlName="confirmPassword" type="password" class="form-control" id="confirmPassword"
+                placeholder="Confirm password">
+            <div *ngIf="(registerFormGroup.errors?.['missMatch'] || confirmPassword.invalid) && (confirmPassword.dirty || confirmPassword.touched)" class="form-text text-danger">
+                <div *ngIf="confirmPassword.errors?.['required']">This field is required</div>
+                <div *ngIf="registerFormGroup.errors?.['missMatch'] && !confirmPassword.errors?.['required']">Password is not match</div>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit" [disabled]="!registerFormGroup.valid">Submit</button>
+    </form>
+</div>
