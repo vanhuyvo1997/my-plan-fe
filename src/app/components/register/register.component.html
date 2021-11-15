@@ -1,0 +1,43 @@
+<form (submit)="onSubmit()" [formGroup]="formRegister">
+    <div class="form-group">
+        <label for="fullName" class="form-label">Full name</label>
+        <input formControlName="name" class="form-control" [ngClass]="getInputValidateClass('name')" type="text"
+            id="fullName" placeholder="Enter your full name" />
+        <div class="invalid-feedback">
+            <div *ngIf="name?.errors?.['required']">This field is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input formControlName="email" class="form-control" [ngClass]="getInputValidateClass('email')" type="email"
+            id="email" placeholder="Enter your email address" />
+        <div class="invalid-feedback">
+            <div *ngIf="email?.errors?.['required']">This field is required</div>
+            <div *ngIf="email?.errors?.['email']">This field must be email address</div>
+        </div>
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input formControlName="password" class="form-control" [ngClass]="getInputValidateClass('password')"
+            type="password" id="password" placeholder="Enter your password" />
+        <div class="invalid-feedback">
+            <div *ngIf="password?.errors?.['required']">This field is required</div>
+            <div *ngIf="password?.errors?.['minlength']">Password must has at least 6 characters</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="confirmPassword" class="form-label">Confirm password</label>
+        <input formControlName="confirmPassword" class="form-control"
+            [ngClass]="{'is-invalid': (confirmPassword?.touched|| confirmPassword?.dirty) && (confirmPassword?.errors?.['required'] || formRegister.hasError('notMatch')),
+                        'is-valid': password?.valid && !formRegister.hasError('notMatch') }"
+            type="password" id="confirmPassword" placeholder="Confirm your password" />
+        <div class="invalid-feedback">
+            <div *ngIf="confirmPassword?.errors?.['required']">This field is required</div>
+            <div *ngIf="formRegister.hasError('notMatch')">Confirm password is not match</div>
+        </div>
+    </div>
+    <br>
+    <input [disabled]="formRegister.invalid" type="submit" class="btn btn-primary btn-lg" value="Register" />
+    <a routerLink="/login" class="btn btn-light btn-lg active">Cancel</a>
+</form>
