@@ -1,0 +1,34 @@
+<div class="d-flex justify-content-center">
+    <div class="card mt-5 w-50 ">
+        <div class="card-header">
+            <h5>Login</h5>
+        </div>
+        <div class="card-body">
+            <form #formLogin="ngForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="username" class="form-label">Email/Username</label>
+                    <input [(ngModel)]="username" id="username" type="text" class="form-control"
+                        placeholder="Your user name" required name="username" [ngClass]="{'is-invalid': (usernameFormControl.dirty || usernameFormControl.touched) && usernameFormControl.invalid,
+                                        'is-valid': usernameFormControl.valid}" #usernameFormControl="ngModel" />
+                    <div *ngIf="(usernameFormControl.dirty || usernameFormControl.touched)&& usernameFormControl.hasError('required')" class="invalid-feedback">
+                        This field is required
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="username" class="form-label">Password</label>
+                    <input [(ngModel)]="password" id="password" type="password" class="form-control"
+                        placeholder="Your password" required name="password" [ngClass]="{'is-invalid': (passwordFirmControl.dirty || passwordFirmControl.touched) && passwordFirmControl.invalid,
+                        'is-valid': passwordFirmControl.valid}" #passwordFirmControl="ngModel" />
+                        <div *ngIf="(passwordFirmControl.dirty || passwordFirmControl.touched)&& passwordFirmControl.hasError('required')" class="invalid-feedback">
+                            This field is required
+                        </div>
+                </div>
+                <div class="mt-2">
+                    <input type="submit" class="btn btn-primary" [disabled]="formLogin.invalid" />
+                    <a class="btn btn-light" routerLink="/register">Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
