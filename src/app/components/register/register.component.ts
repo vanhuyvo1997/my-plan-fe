@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from '@app/_services/alert.service';
+import { AuthenticationService } from '@app/_services/authentication.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +26,10 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private authService: AuthenticationService,
+    private alertService: AlertService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -34,7 +42,18 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-
+    const { name, email, password } = this.formRegister.value;
+    this.authService.register(name, email, password).pipe(first()).subscribe(
+      {
+        next: _data => {
+          this.alertService.success('Registration successful', { keepAfterRouteChange: true });
+          this.router.navigate(['../login'], { relativeTo: this.route });
+        },
+        error: _error => {
+          this.alertService.error(_error.message);
+        }
+      }
+    );
   }
 
   get name() { return this.formRegister.get('name'); }
